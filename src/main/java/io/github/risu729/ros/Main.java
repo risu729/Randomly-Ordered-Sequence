@@ -103,9 +103,9 @@ public final class Main {
     .orElseThrow();
   }
 
-  private record Settings(int maxNumber, int duplication, int trialTimes) implements Comparable{
-    
-    private static final Comparator COMPARATOR = Comparator.comparingInt(Settings::maxNumber)
+  private record Settings(int maxNumber, int duplication, int trialTimes) implements Comparable<Settings> {
+
+    private static final Comparator<Settings> COMPARATOR = Comparator.comparingInt(Settings::maxNumber)
         .thenComparingInt(Settings::duplication)
         .thenComparingInt(Settings::trialTimes);
 
@@ -116,7 +116,7 @@ public final class Main {
     }
     
     @Override
-    public int compareTo(Object other) {
+    public int compareTo(Settings other) {
       return COMPARATOR.compare(this, other);
     }
   }
