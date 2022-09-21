@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 public final class Main {
 
   private static final Path SETTINGS_PATH = Path.of("src", "main", "resources", "settings.properties");
-  private static final Path RESULTS_PATH = Path.of("results").resolve(OffsetDateTime.now(ZoneOffset.UTC).toString());
+  private static final Path RESULT_PATH = Path.of("results").resolve(OffsetDateTime.now(ZoneOffset.UTC).toString());
   
   public static void main(String[] args) throws IOException {
     
@@ -61,7 +61,9 @@ public final class Main {
 
     Map<Settings, Double> result = conditions.stream()
         .collect(Collectors.toUnmodifiableMap(UnaryOperator.identity(), Main::execute));
-    try (BufferedWriter writer = Files.newBufferedWriter(RESULTS_PATH)) {
+    Files.createDirectories(RESULT_PATH.getParent());
+    Files.createFile(RESULT_PATH);
+    try (BufferedWriter writer = Files.newBufferedWriter(RESULT_PATH)) {
       writer.write(String.join(",", "maxNumber", "duplication", "trialTimes", "result"));
       writer.newLine();
       for (var entry : result.entrySet()) {
