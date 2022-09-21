@@ -116,7 +116,7 @@ public final class Main {
     }
     
     @Override
-    public int compareTo(Settings other) {
+    public int compareTo(Object other) {
       return COMPARATOR.compare(this, other);
     }
   }
