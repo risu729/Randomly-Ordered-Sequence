@@ -25,7 +25,7 @@ public final class Main {
 
   private static final Path SETTINGS_PATH = Path.of("src", "main", "resources", "settings.properties");
   private static final Path RESULT_PATH = Path.of("results").resolve(
-      OffsetDateTime.now(ZoneOffset.UTC).toString() + ".csv");
+      OffsetDateTime.now(ZoneOffset.UTC).toString().replace(":", "") + ".csv");
   
   public static void main(String[] args) throws IOException {
     
@@ -46,8 +46,7 @@ public final class Main {
       if (result.size() == 1) {
         result.add(result.get(0));
       }
-      Collections.unmodifiableList(result);
-      return result;
+      return Collections.unmodifiableList(result);
     };
 
     List<Settings> conditions = new LinkedList<>();
