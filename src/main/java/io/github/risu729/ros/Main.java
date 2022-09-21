@@ -87,8 +87,6 @@ public final class Main {
 
   private record Settings(int maxNumber, int duplication, int trialTimes) {
 
-    private static final CSVHeader = ;
-
     private String toCSV(double result) {
       return Stream.concat(IntStream.of(maxNumber, duplication, trialTimes).map(Integer::toString),
               Stream.of(Double.toString(result)))
