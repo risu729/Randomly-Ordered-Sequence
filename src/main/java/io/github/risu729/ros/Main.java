@@ -22,7 +22,8 @@ import java.util.stream.Stream;
 public final class Main {
 
   private static final Path SETTINGS_PATH = Path.of("src", "main", "resources", "settings.properties");
-  private static final Path RESULT_PATH = Path.of("results").resolve(OffsetDateTime.now(ZoneOffset.UTC).toString());
+  private static final Path RESULT_PATH = Path.of("results").resolve(
+      OffsetDateTime.now(ZoneOffset.UTC).toString() + ".txt");
   
   public static void main(String[] args) throws IOException {
     
