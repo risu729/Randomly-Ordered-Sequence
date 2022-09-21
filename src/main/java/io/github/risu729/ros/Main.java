@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.TreeMap;
 
 public final class Main {
 
@@ -61,7 +63,8 @@ public final class Main {
     }
 
     Map<Settings, Double> result = conditions.stream()
-        .collect(Collectors.toUnmodifiableMap(UnaryOperator.identity(), Main::execute));
+        .collect(Collectors.toMap(UnaryOperator.identity(), Main::execute, (e1, e2) -> e1, TreeMap::new));
+    
     Files.createDirectories(RESULT_PATH.getParent());
     Files.createFile(RESULT_PATH);
     try (BufferedWriter writer = Files.newBufferedWriter(RESULT_PATH)) {
@@ -100,12 +103,21 @@ public final class Main {
     .orElseThrow();
   }
 
-  private record Settings(int maxNumber, int duplication, int trialTimes) {
+  private record Settings(int maxNumber, int duplication, int trialTimes) implements Comparable{
+    
+    private static final Comparator COMPARATOR = Comparator.comparingInt(Settings::maxNumber)
+        .thenComparingInt(Settings::duplication)
+        .thenComparingInt(Settings::trialTimes);
 
     private String toCSV(double result) {
       return Stream.concat(IntStream.of(maxNumber, duplication, trialTimes).mapToObj(Integer::toString),
               Stream.of(Double.toString(result)))
           .collect(Collectors.joining(","));
+    }
+    
+    @Override
+    public int compareTo(Settings other) {
+      COMPARATOR.compare(this, other);
     }
   }
 }
