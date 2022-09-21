@@ -52,7 +52,7 @@ public final class Main {
     for (int maxNumber = maxNumberRange.get(0); maxNumber <= maxNumberRange.get(1); maxNumber++) {
       List<Integer> duplicationRange = propertiesConverter.apply("duplication");
       for (int duplication = duplicationRange.get(0); duplication <= duplicationRange.get(1); duplication++) {
-        List<Integer> trialTimesRange = propertiesConverter.apply("trialTimesRange");
+        List<Integer> trialTimesRange = propertiesConverter.apply("trialTimes");
         for (int trialTimes = trialTimesRange.get(0); trialTimes <= trialTimesRange.get(1); trialTimes++) {
           conditions.add(new Settings(maxNumber, duplication, trialTimes));
         }
