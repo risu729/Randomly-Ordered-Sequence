@@ -1,5 +1,7 @@
 import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.OffsetDateTime;
@@ -27,7 +29,11 @@ public final class Main {
     // load settings
     Function<String, List<Integer>> propertiesConverter = key -> {
       var properties = new Properties();
-      properties.load(Files.newInputStream(SETTINGS_PATH));
+      try (InputStream input = Files.newInputStream(SETTINGS_PATH)) {
+        properties.load(input);
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
       List<Integer> result = Pattern.compile(",").splitAsStream(properties.getProperty(key))
           .mapToInt(Integer::parseInt)
           .limit(2)
