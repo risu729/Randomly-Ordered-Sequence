@@ -2,7 +2,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.OffSetDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.function.Function;
@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 public final class Main {
 
   private static final Path SETTINGS_PATH = Path.of("src", "main", "resources", "settings.properties");
-  private static final Path RESULTS_PATH = Path.of("results").resolve(OffSetDateTime.now(ZoneOffSet.UTC).toString());
+  private static final Path RESULTS_PATH = Path.of("results").resolve(OffsetDateTime.now(ZoneOffset.UTC).toString());
   
   public static void main(String[] args) throws IOException {
     
