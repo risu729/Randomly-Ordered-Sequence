@@ -2,12 +2,17 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.OffSetDateTime;
+import java.time.ZoneOffset;
 import java.util.Collections;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -40,7 +45,7 @@ public final class Main {
     List<Integer> maxNumberRange = propertiesConverter.apply("maxNumber");
     for (int maxNumber = maxNumberRange.get(0); maxNumber <= maxNumberRange.get(1); maxNumber++) {
       List<Integer> duplicationRange = propertiesConverter.apply("duplication");
-      for (int duplication = duplication.get(0); duplication <= duplication.get(1); duplication++) {
+      for (int duplication = duplicationRange.get(0); duplication <= duplicationRange.get(1); duplication++) {
         List<Integer> trialTimesRange = propertiesConverter.apply("trialTimesRange");
         for (int trialTimes = trialTimesRange.get(0); trialTimes <= trialTimesRange.get(1); trialTimes++) {
           conditions.add(new Settings(maxNumber, duplication, trialTimes));
