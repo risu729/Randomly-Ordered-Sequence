@@ -1,3 +1,4 @@
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -88,7 +89,7 @@ public final class Main {
   private record Settings(int maxNumber, int duplication, int trialTimes) {
 
     private String toCSV(double result) {
-      return Stream.concat(IntStream.of(maxNumber, duplication, trialTimes).map(Integer::toString),
+      return Stream.concat(IntStream.of(maxNumber, duplication, trialTimes).mapToObj(Integer::toString),
               Stream.of(Double.toString(result)))
           .collect(Collectors.joining(","));
     }
