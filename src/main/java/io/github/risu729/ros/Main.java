@@ -64,7 +64,7 @@ public final class Main {
       result.forEach((key, value) -> key.writeCSV(writer, value));
     }
 
-    printTime("Finished writing results", TimeUnit.MILLISECONDS);
+    printTime("Finished writing results", TimeUnit.SECONDS);
   }
 
   private static void printTime(String message, TimeUnit unit) {
@@ -77,7 +77,7 @@ public final class Main {
       case MILLISECONDS -> "ms";
       default -> unit.toString();
     };
-    System.out.println(message + ": " + unit.convert(lastPrinted - now, TimeUnit.MILLISECONDS) + " " + unitSymbol);
+    System.out.println(message + ": " + unit.convert(now - lastPrinted, TimeUnit.MILLISECONDS) + " " + unitSymbol);
     lastPrinted = now;
   }
 
