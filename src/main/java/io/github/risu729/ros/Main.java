@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -39,8 +40,8 @@ public final class Main {
 
     List<Settings> variablesList = new LinkedList<>();
     for (int n = nRange[0]; n <= nRange[1]; n++) {
-      for (int n = nRange[0]; n <= nRange[1]; n++) {
-        for (int n = nRange[0]; n <= nRange[1]; n++) {
+      for (int m = mRange[0]; m <= mRange[1]; m++) {
+        for (int trials = trialsRange[0]; trials <= trialsRange[1]; trials++) {
           variablesList.add(new Variables(n, m, trials));
         }
       }
@@ -53,13 +54,13 @@ public final class Main {
     
     printTime("Finished exection", TimeUnit.MINUTES);
     
+    var resultsPath = RESULTS_DIR.resolve(OffsetDateTime.now(ZoneOffset.UTC).toString().replace(":", "") + ".csv");
     Files.createDirectories(RESULTS_DIR);
     Files.createFile(resultsPath);
-    try (BufferedWriter writer = Files.newBufferedWriter(
-        RESULTS_DIR.resolve(OffsetDateTime.now(ZoneOffset.UTC).toString().replace(":", "") + ".csv"))) {
-      writer.append(String.join(",", "n", "m", "trials", "result"))
-        .newLine();
-      result.entrySet().forEach(entry -> entry.getKey().writeCSV(writer, entry.getValue()));
+    try (BufferedWriter writer = Files.newBufferedWriter(resultsPath)) {
+      writer.write(String.join(",", "n", "m", "trials", "result"))
+      writer.newLine();
+      result.forEach((variables, result) -> variables.writeCSV(writer, result));
     }
     
     printTime("Finished writing results", TimeUnit.MILLISECONDS);
@@ -88,7 +89,7 @@ public final class Main {
     if (range.length == 2) {
       return range;
     } else {
-      return new Array[] {range[0], range[0]};
+      return new int[] {range[0], range[0]};
     }
   }
   
@@ -99,14 +100,14 @@ public final class Main {
         .thenComparingInt(Variables::trials);
 
     private void writeCSV(BufferedWriter writer, double result) {
-      writer.append(n)
-        .append(',')
-        .append(m)
-        .append(',')
-        .append(trials)
-        .append(',')
-        .append(result)
-        .newLine();
+      writer.write(n)
+      writer.write(',')
+      writer.write(m)
+      writer.write(',')
+      writer.write(trials)
+      writer.write(',')
+      writer.write(result)
+      writer.newLine();
     }
     
     @Override
