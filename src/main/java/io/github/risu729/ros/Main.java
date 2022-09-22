@@ -58,7 +58,7 @@ public final class Main {
     Files.createDirectories(RESULTS_DIR);
     Files.createFile(resultsPath);
     try (BufferedWriter writer = Files.newBufferedWriter(resultsPath)) {
-      writer.write(String.join(",", "n", "m", "trials", "result"))
+      writer.write(String.join(",", "n", "m", "trials", "result"));
       writer.newLine();
       result.forEach((variables, result) -> variables.writeCSV(writer, result));
     }
@@ -100,13 +100,13 @@ public final class Main {
         .thenComparingInt(Variables::trials);
 
     private void writeCSV(BufferedWriter writer, double result) {
-      writer.write(n)
-      writer.write(',')
-      writer.write(m)
-      writer.write(',')
-      writer.write(trials)
-      writer.write(',')
-      writer.write(result)
+      writer.write(n);
+      writer.write(',');
+      writer.write(m);
+      writer.write(',');
+      writer.write(trials);
+      writer.write(',');
+      writer.write(result);
       writer.newLine();
     }
     
