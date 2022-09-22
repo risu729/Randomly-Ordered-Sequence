@@ -24,16 +24,16 @@ public final class Main {
 
   private static final Path SETTINGS_PATH = Path.of("src", "main", "resources", "settings.properties");
   private static final Path RESULTS_DIR = Path.of("results");
-  
+
   private static long lastPrinted = System.currentTimeMillis();
-  
+
   public static void main(String[] args) throws IOException {
-    
+
     var properties = new Properties();
     try (var input = Files.newInputStream(SETTINGS_PATH)) {
       properties.load(input);
     }
-    
+
     int[] nRange = loadRange(properties, "n");
     int[] mRange = loadRange(properties, "m");
     int[] trialsRange = loadRange(properties, "trials");
@@ -46,14 +46,14 @@ public final class Main {
         }
       }
     }
-    
+
     printTime("Finished variables list creation", TimeUnit.MILLISECONDS);
 
     Map<Variables, Double> result = variablesList.parallelStream()
         .collect(Collectors.toMap(UnaryOperator.identity(), Main::execute, (e1, e2) -> e1, TreeMap::new));
-    
+
     printTime("Finished exection", TimeUnit.MINUTES);
-    
+
     var resultsPath = RESULTS_DIR.resolve(OffsetDateTime.now(ZoneOffset.UTC).toString().replace(":", "") + ".csv");
     Files.createDirectories(RESULTS_DIR);
     Files.createFile(resultsPath);
@@ -62,10 +62,10 @@ public final class Main {
       writer.newLine();
       result.forEach((key, value) -> key.writeCSV(writer, value));
     }
-    
+
     printTime("Finished writing results", TimeUnit.MILLISECONDS);
   }
-  
+
   private static void printTime(String message, TimeUnit unit) {
     long now = System.currentTimeMillis();
     var unitSymbol = switch (unit) {
@@ -79,7 +79,7 @@ public final class Main {
     System.out.println(message + ": " + unit.convert(lastPrinted - now, TimeUnit.MILLISECONDS) + " " + unitSymbol);
     lastPrinted = now;
   }
-  
+
   private static int[] loadRange(Properties properties, String key) {
     int[] range = Pattern.compile(",").splitAsStream(properties.getProperty(key))
           .mapToInt(Integer::parseInt)
@@ -92,7 +92,7 @@ public final class Main {
       return new int[] {range[0], range[0]};
     }
   }
-  
+
   private record Variables(int n, int m, int trials) implements Comparable<Variables> {
 
     private static final Comparator<Variables> COMPARATOR = Comparator.comparingInt(Variables::m)
@@ -109,7 +109,7 @@ public final class Main {
       writer.write(Double.toString(result));
       writer.newLine();
     }
-    
+
     @Override
     public int compareTo(Variables other) {
       return COMPARATOR.compare(this, other);
