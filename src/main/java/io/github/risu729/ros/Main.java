@@ -38,7 +38,7 @@ public final class Main {
     int[] mRange = loadRange(properties, "m");
     int[] trialsRange = loadRange(properties, "trials");
 
-    List<Settings> variablesList = new LinkedList<>();
+    List<Variables> variablesList = new LinkedList<>();
     for (int n = nRange[0]; n <= nRange[1]; n++) {
       for (int m = mRange[0]; m <= mRange[1]; m++) {
         for (int trials = trialsRange[0]; trials <= trialsRange[1]; trials++) {
@@ -49,7 +49,7 @@ public final class Main {
     
     printTime("Finished variables list creation", TimeUnit.MILLISECONDS);
 
-    Map<Settings, Double> result = variablesList.parallelStream()
+    Map<Variables, Double> result = variablesList.parallelStream()
         .collect(Collectors.toMap(UnaryOperator.identity(), Main::execute, (e1, e2) -> e1, TreeMap::new));
     
     printTime("Finished exection", TimeUnit.MINUTES);
@@ -106,12 +106,12 @@ public final class Main {
       writer.write(',');
       writer.write(trials);
       writer.write(',');
-      writer.write(result);
+      writer.write(Double.toString(result));
       writer.newLine();
     }
     
     @Override
-    public int compareTo(Settings other) {
+    public int compareTo(Variables other) {
       return COMPARATOR.compare(this, other);
     }
   }
