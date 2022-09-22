@@ -60,7 +60,7 @@ public final class Main {
     try (BufferedWriter writer = Files.newBufferedWriter(resultsPath)) {
       writer.write(String.join(",", "n", "m", "trials", "result"));
       writer.newLine();
-      result.forEach((variables, result) -> variables.writeCSV(writer, result));
+      result.forEach((key, value) -> key.writeCSV(writer, value));
     }
     
     printTime("Finished writing results", TimeUnit.MILLISECONDS);
