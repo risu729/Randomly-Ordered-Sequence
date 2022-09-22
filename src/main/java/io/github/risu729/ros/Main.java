@@ -121,7 +121,7 @@ public final class Main {
         .boxed()
         .toList();
 
-    return Stream.generate(() -> new LinkedList<originalMultiset>)
+    return Stream.generate(() -> new LinkedList<>(originalMultiset))
         .limit(variables.trials())
         .parallel()
         .peek(list -> Collections.shuffle(list, new Random()))
