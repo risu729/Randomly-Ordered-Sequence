@@ -1,6 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.OffsetDateTime;
@@ -99,15 +100,19 @@ public final class Main {
         .thenComparingInt(Variables::n)
         .thenComparingInt(Variables::trials);
 
-    private void writeCSV(BufferedWriter writer, double result) throws IOException {
-      writer.write(n);
-      writer.write(',');
-      writer.write(m);
-      writer.write(',');
-      writer.write(trials);
-      writer.write(',');
-      writer.write(Double.toString(result));
-      writer.newLine();
+    private void writeCSV(BufferedWriter writer, double result) {
+      try {
+        writer.write(n);
+        writer.write(',');
+        writer.write(m);
+        writer.write(',');
+        writer.write(trials);
+        writer.write(',');
+        writer.write(Double.toString(result));
+        writer.newLine();
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
     }
 
     @Override
