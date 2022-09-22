@@ -99,7 +99,7 @@ public final class Main {
         .thenComparingInt(Variables::n)
         .thenComparingInt(Variables::trials);
 
-    private void writeCSV(BufferedWriter writer, double result) {
+    private void writeCSV(BufferedWriter writer, double result) throws IOException {
       writer.write(n);
       writer.write(',');
       writer.write(m);
